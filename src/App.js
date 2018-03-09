@@ -12,15 +12,34 @@ class App extends Component {
       totalCash: 0,
       totalStorage: 0,
       shipCapacity: 0,
-
+      amtToSell:0
      }
   }
 
 sellAmount(val){
     this.setState({
-      totalStorage: this.state.totalStorage-val,
-      totalCash: this.state.totalCash += val *2
+     amtToSell: val
     });
+
+}
+
+sell(val){
+  let numberized = Number(this.state.totalStorage);
+  let numberized2 = Number(this.state.amtToSell)
+ 
+  if(this.state.totalStorage<=0){
+    this.setState({totalStorage:0,
+      totalCash: this.state.totalCash += 0
+    })
+    console.log("you have nothing to sell");
+  }
+  else {
+    this.setState({
+      totalStorage: numberized -= numberized2,
+      totalCash: this.state.totalCash += numberized2 * 5
+     })
+  }
+
 }
 
 loadShip(){
@@ -42,30 +61,12 @@ unloadCargo() {
     return ( 
       <div className="app">
         <h1>Asteroid Miner</h1>
-
-
-
-
-
-
-        <header>
-          
+        <header>  
           <button onClick={
             ()=> console.log("hello")
             } >Select Asteroid to Mine</button>
-              
-
           <h2>Total Cash: ${this.state.totalCash}</h2>
-
-
-
-
-
         </header>
-
-
-
-
         <div className="main_div">
           <section>
             <h3>Mine</h3>
@@ -91,7 +92,7 @@ unloadCargo() {
               <span> Amount:</span>
               <input className="sell_amount" onChange={(e) =>this.sellAmount(e.target.value) }/>
               <button onClick={
-                () =>  console.log("Storage Sold")
+                () =>  {this.sell()}
               }>Sell</button>
             </div>
           </section>
