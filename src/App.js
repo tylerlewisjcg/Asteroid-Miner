@@ -4,6 +4,7 @@ import './App.css';
 
 
 
+
 class App extends Component {
   constructor() {
     super();
@@ -11,8 +12,17 @@ class App extends Component {
       totalCash: 0,
       totalStorage: 0,
       shipCapcity: 0
+
      }
   }
+
+sellAmount(val){
+    this.setState({
+      totalStorage: this.state.totalStorage-val,
+      totalCash: this.state.totalCash += val *2
+    });
+}
+
   render() { 
     return ( 
       <div className="app">
@@ -25,13 +35,17 @@ class App extends Component {
           <section>
             <h3>Mine</h3>
               <img src='https://res.cloudinary.com/engineering-com/image/upload/w_640,h_640,c_limit,q_auto,f_auto/Asteroid_2_he1p7w.jpg' alt='Mine Image'/>
-              <button>Mine</button>
+              <button onClick={
+                () =>  console.log("Capacity Increased")
+              }>Mine</button>
           </section>
           <section>
             <h3>Cargo Ship</h3>
             <img src='https://pre00.deviantart.net/fb8b/th/pre/f/2014/337/9/9/cargo_ship_by_stoupa-d88j33s.jpg' alt='Cargo Ship Image'/>          
               <span>Capacity: {this.state.shipCapcity}/50</span>
-              <button>Ship</button>
+              <button onClick={
+                () =>  console.log("Cargo Shipped")
+              }>Ship</button>
           </section>
           <section>
             <h3>Warehouse</h3>
@@ -40,8 +54,10 @@ class App extends Component {
             <span>Storage: {this.state.totalStorage}</span>
             <div className="sell_div">
               <span> Amount:</span>
-              <input className="sell_amount" />
-              <button>Sell</button>
+              <input className="sell_amount" onChange={(e) =>this.sellAmount(e.target.value) }/>
+              <button onClick={
+                () =>  console.log("Storage Sold")
+              }>Sell</button>
             </div>
           </section>
         </div> 

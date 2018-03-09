@@ -4,6 +4,12 @@ class Mine extends Component {
         super();
         this.state = {  }
     }
+
+minerMethod(){
+    this.setState({shipCapacity: shipCapacity++})
+    //this needs to handle the onClick from the Mine button 
+}
+
     render() { 
         return ( 
             <div>
