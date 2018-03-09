@@ -11,7 +11,7 @@ class App extends Component {
     this.state = { 
       totalCash: 0,
       totalStorage: 0,
-      shipCapcity: 0
+      shipCapacity: 0,
 
      }
   }
@@ -23,28 +23,63 @@ sellAmount(val){
     });
 }
 
+loadShip(){
+  this.setState({shipCapacity: this.state.shipCapacity += 1})
+  console.log(this.state.shipCapacity);
+  if(this.state.shipCapacity >= 50){console.log("Ship is Full");
+  this.setState({shipCapacity: 50});
+}
+}
+unloadCargo() {
+  this.setState({totalStorage: this.state.totalStorage += this.state.shipCapacity,
+    shipCapacity:0  
+  })
+}
+
+
+
   render() { 
     return ( 
       <div className="app">
         <h1>Asteroid Miner</h1>
+
+
+
+
+
+
         <header>
-          <button className="drop_down">Select Asteroid to Mine</button>
+          
+          <button onClick={
+            ()=> console.log("hello")
+            } >Select Asteroid to Mine</button>
+              
+
           <h2>Total Cash: ${this.state.totalCash}</h2>
+
+
+
+
+
         </header>
+
+
+
+
         <div className="main_div">
           <section>
             <h3>Mine</h3>
               <img src='https://res.cloudinary.com/engineering-com/image/upload/w_640,h_640,c_limit,q_auto,f_auto/Asteroid_2_he1p7w.jpg' alt='Mine Image'/>
               <button onClick={
-                () =>  console.log("Capacity Increased")
+                () =>   this.loadShip()
               }>Mine</button>
           </section>
           <section>
             <h3>Cargo Ship</h3>
             <img src='https://pre00.deviantart.net/fb8b/th/pre/f/2014/337/9/9/cargo_ship_by_stoupa-d88j33s.jpg' alt='Cargo Ship Image'/>          
-              <span>Capacity: {this.state.shipCapcity}/50</span>
+              <span>Capacity: {this.state.shipCapacity}/50</span>
               <button onClick={
-                () =>  console.log("Cargo Shipped")
+                () =>  this.unloadCargo()
               }>Ship</button>
           </section>
           <section>
