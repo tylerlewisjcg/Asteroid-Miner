@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
-
-
+import Mine from './components/Mine';
+import Ship from './components/Ship';
+import Warehouse from './components/Warehouse';
 
 
 class App extends Component {
@@ -14,6 +15,11 @@ class App extends Component {
       shipCapacity: 0,
       amtToSell:0
      }
+
+    this.loadShip = this.loadShip.bind( this ); 
+    this.unloadCargo = this.unloadCargo.bind(this);
+    this.sellAmount = this.sellAmount.bind(this);
+    this.sell = this.sell.bind(this);
   }
 
 sellAmount(val){
@@ -31,7 +37,7 @@ sell(val){
     this.setState({totalStorage:0,
       totalCash: this.state.totalCash += 0
     })
-    console.log("you have nothing to sell");
+    alert("You Must Aquire More Minerals");
   }
   else {
     this.setState({
@@ -44,9 +50,10 @@ sell(val){
 
 loadShip(){
   this.setState({shipCapacity: this.state.shipCapacity += 1})
-  console.log(this.state.shipCapacity);
-  if(this.state.shipCapacity >= 50){console.log("Ship is Full");
-  this.setState({shipCapacity: 50});
+  if(this.state.shipCapacity >= 50){
+    alert("Your Ship is Full!");
+    this.setState({shipCapacity: 50});
+  
 }
 }
 unloadCargo() {
@@ -68,35 +75,20 @@ unloadCargo() {
           <h2>Total Cash: ${this.state.totalCash}</h2>
         </header>
         <div className="main_div">
-          <section>
-            <h3>Mine</h3>
-              <img src='https://res.cloudinary.com/engineering-com/image/upload/w_640,h_640,c_limit,q_auto,f_auto/Asteroid_2_he1p7w.jpg' alt='Mine Image'/>
-              <button onClick={
-                () =>   this.loadShip()
-              }>Mine</button>
-          </section>
-          <section>
-            <h3>Cargo Ship</h3>
-            <img src='https://pre00.deviantart.net/fb8b/th/pre/f/2014/337/9/9/cargo_ship_by_stoupa-d88j33s.jpg' alt='Cargo Ship Image'/>          
-              <span>Capacity: {this.state.shipCapacity}/50</span>
-              <button onClick={
-                () =>  this.unloadCargo()
-              }>Ship</button>
-          </section>
-          <section>
-            <h3>Warehouse</h3>
-            
-            <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa-TxhUVYJHdTcnFK2zWFErnJtfPAFZruhlH1cqidrZWq1_Npc' alt='Warehouse Image'/> 
-            <span>Storage: {this.state.totalStorage}</span>
-            <div className="sell_div">
-              <span> Amount:</span>
-              <input className="sell_amount" onChange={(e) =>this.sellAmount(e.target.value) }/>
-              <button onClick={
-                () =>  {this.sell()}
-              }>Sell</button>
-            </div>
-          </section>
+        <Mine
+        loadShip={this.loadShip}
+        />
+        <Ship
+          unloadCargo={this.unloadCargo}
+          shipCapacity={this.state.shipCapacity}
+        />
+        <Warehouse
+        sellAmount={this.sellAmount}
+        sell={this.sell}
+        totalStorage={this.state.totalStorage}
+        />
         </div> 
+        
       </div>
     )
   }
