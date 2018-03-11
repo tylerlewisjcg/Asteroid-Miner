@@ -16,7 +16,8 @@ class App extends Component {
       shipCapacity: 0,
       amtToSell:0,
       asteroids: [],
-      asteroid: ''
+      asteroid: '',
+      loggedIn: true
      }
 
     this.loadShip = this.loadShip.bind( this ); 
@@ -96,14 +97,28 @@ unloadCargo() {
     shipCapacity:0  
   })
 }
-
+logout(){
+  this.setState ({
+    loggedIn: false
+  })
+}
 
 
   render() { 
     return ( 
       <div className="app">
+      {this.state.loggedIn ?
+        <div> 
         <h1>Asteroid Miner</h1>
-        <h2>Mining on {this.state.asteroid}</h2>
+        <div className="logoutDiv">
+        <h2>Hello Captain"PlayerName"</h2>
+        <section className="headerButtons">
+          <button className="editProfile">Edit Profile</button>
+        <button className="logoutButton" onClick = {()=> this.logout()}>Logout</button>
+        </section>
+        </div>
+        <h2>Captain of the Cargo Ship "ShipName"</h2>
+        <h2>Mining on Asteroid{this.state.asteroid}</h2>
         <header>  
             <select onChange={ (e) => this.setAsteroid(e) }>
               <option value=''>Select an Asteroid</option>
@@ -127,7 +142,10 @@ unloadCargo() {
         totalStorage={this.state.totalStorage}
         />
         </div> 
-        <UserInfo />
+        </div>
+        :
+        <UserInfo/>
+      }
       </div>
     )
   }

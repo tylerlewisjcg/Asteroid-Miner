@@ -1,6 +1,6 @@
 // Express Code Goes Here
 
-/*
+
 const express = require('express'),
  bodyParser = require('body-parser'),
 cors = require('cors'),
@@ -21,16 +21,10 @@ app.put('/api/users/:id', uc.update);
 app.delete('/api/books/:id', uc.delete);
 
 
-
+const port = 3005;
 
 
 app.listen(port, ()=> console.log(`Listening on port ${port}`));
-   */
 
-
-
-
-
-const port = 3005;
 
 

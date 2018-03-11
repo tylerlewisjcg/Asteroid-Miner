@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Login from './Login';
 class UserInfo extends Component {
     constructor(props) {
         super(props);
@@ -11,6 +12,7 @@ class UserInfo extends Component {
             inServiceSince: new Date(),
             showForm: false
         }
+        this.createPlayer=this.createPlayer.bind(this);
     }
 
     handleChange(event) {
@@ -26,7 +28,6 @@ class UserInfo extends Component {
     }
 
     // need  a ternary function to show user info on submit
-    // need an edit feature to edit userName and shipName
     // need axios request methods to communicate with my API
     // needendpoints in my controller to handle requests
 
@@ -42,7 +43,9 @@ class UserInfo extends Component {
             <button className="submit">Submit</button>
             </form>
             :
-            <button onClick={ ()=> this.createPlayer()}>New Player</button>}
+            <Login
+            createPlayer = {this.createPlayer}
+            />}
 
         </div> 
         )
