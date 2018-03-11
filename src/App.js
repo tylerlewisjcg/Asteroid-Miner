@@ -4,6 +4,7 @@ import './App.css';
 import Mine from './components/Mine';
 import Ship from './components/Ship';
 import Warehouse from './components/Warehouse';
+import UserInfo from './components/UserInfo';
 
 
 class App extends Component {
@@ -13,13 +14,47 @@ class App extends Component {
       totalCash: 0,
       totalStorage: 0,
       shipCapacity: 0,
-      amtToSell:0
+      amtToSell:0,
+      asteroids: [],
+      asteroid: ''
      }
 
     this.loadShip = this.loadShip.bind( this ); 
     this.unloadCargo = this.unloadCargo.bind(this);
     this.sellAmount = this.sellAmount.bind(this);
     this.sell = this.sell.bind(this);
+  }
+
+
+  componentDidMount() {
+
+    this.getAsteroids();
+    
+    }
+
+
+    getAsteroids() {
+
+      axios.get('https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=DEMO_KEY')
+      
+      .then(response => this.setState(
+      
+      {asteroids: response.data.near_earth_objects}
+      
+      ))
+      
+      
+    }
+
+    
+setAsteroid(e) {
+
+  this.setState(
+  
+  {asteroid: e.target.value}
+  
+  )
+  
   }
 
 sellAmount(val){
@@ -37,7 +72,7 @@ sell(val){
     this.setState({totalStorage:0,
       totalCash: this.state.totalCash += 0
     })
-    alert("You Must Aquire More Minerals");
+    alert("You Must Construct Additonal Pylons");
   }
   else {
     this.setState({
@@ -68,10 +103,14 @@ unloadCargo() {
     return ( 
       <div className="app">
         <h1>Asteroid Miner</h1>
+        <h2>Mining on {this.state.asteroid}</h2>
         <header>  
-          <button onClick={
-            ()=> console.log("hello")
-            } >Select Asteroid to Mine</button>
+            <select onChange={ (e) => this.setAsteroid(e) }>
+              <option value=''>Select an Asteroid</option>
+              {this.state.asteroids.map(function(asteroid, index){
+              return <option value={asteroid.name}>{asteroid.name}</option>
+              })}
+            </select>
           <h2>Total Cash: ${this.state.totalCash}</h2>
         </header>
         <div className="main_div">
@@ -88,7 +127,7 @@ unloadCargo() {
         totalStorage={this.state.totalStorage}
         />
         </div> 
-        
+        <UserInfo />
       </div>
     )
   }

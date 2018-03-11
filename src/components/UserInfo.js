@@ -1,29 +1,49 @@
 import React, { Component } from 'react';
 class UserInfo extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {  
             userName: "",
             shipName: "",
             currentCash: 0,
             currentStorage: 0,
             currentShipCapacity: 0,
-            inServiceSince: 0
+            inServiceSince: new Date(),
+            showForm: false
         }
     }
 
-    /// need to onchange state for name input and ship name input, need an onclick submit to initialize
-    ///need an onclick for new player to show player information, after submit is clicked, all new player buttons, submit buttons, everything is hidden and a new property shows up displaying there information
-    ///need to pass in props from App.js to set state, also need axios methods to push everything to the server side database.
+    handleChange(event) {
+        this.setState({[event.target.name]: event.target.value});
+    }
+
+    handleSubmit(){
+        this.setState({showForm: false});
+    }
+
+    createPlayer(){
+        this.setState({showForm: true});
+    }
+
+    // need  a ternary function to show user info on submit
+    // need an edit feature to edit userName and shipName
+    // need axios request methods to communicate with my API
+    // needendpoints in my controller to handle requests
+
     render() { 
         return ( 
-        <div className="userInfo">
-            <button>New Player</button>
+        <div>
+         {this.state.showForm ?
+            <form className="userInfo" onSubmit={ (e) => this.handleSubmit()}>
             <span className="inputLabel">Name:</span>
-            <input className="userInput"/>
+            <input name='userName' value={this.state.userName} onChange= { (e) => this.handleChange(e)} className="userInput"/>
             <span className="inputLabel">Ship Name:</span>
-            <input className="userInput"/>
+            <input name='shipName' value={this.state.shipName} onChange={ (e) => this.handleChange(e)} className="userInput"/>
             <button className="submit">Submit</button>
+            </form>
+            :
+            <button onClick={ ()=> this.createPlayer()}>New Player</button>}
+
         </div> 
         )
     }

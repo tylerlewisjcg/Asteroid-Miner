@@ -1,3 +1,7 @@
+.app{
+    background-image: url(https://wallpaperscraft.com/image/space_planets_asteroids_stars_belt_galaxy_93470_1920x1080.jpg);
+    height: 100vh;
+}
 img {
     width: 250px;
     height: 200px;
@@ -7,8 +11,15 @@ img {
 }
 h1 {
 text-align: center;
-color: black;
+color:white;
 }
+h2 {
+    color: white;
+}
+h3 {
+    color:white;
+}
+
 header {
 display: flex;
 justify-content: space-around;
@@ -59,4 +70,7 @@ input {
 }
 .submit {
     width: 75px;
+}
+.count {
+    color: white;
 }
