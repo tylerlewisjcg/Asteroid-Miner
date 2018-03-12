@@ -82,7 +82,7 @@ input {
 }
 .logoutDiv {
     display: flex;
-    justify-content: space-between
+    justify-content: center;
 }
 .headerButtons{
     display: flex;
@@ -132,4 +132,8 @@ input {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+.editDiv {
+    display: block;
+    text-align: center;
 }

@@ -134,9 +134,20 @@ changeShipName(id, shipName){
     
         <div> 
         <div className="logoBar"><Logo/><h1>Asteroid Miner</h1><Logo/></div>
+        <header className="topHeader">
         <button onClick ={this.getUsers}>Load Current Profile</button>
-        <div className="logoutDiv">
-        <section className="headerButtons">
+      <div>   <select onChange={ (e) => this.setAsteroid(e) }>
+              <option value=''>Select an Asteroid</option>
+              {this.state.asteroids.map(function(asteroid, index){
+              return <Asteroid
+              asteroid={asteroid.name}
+              />
+              })}
+            </select></div>
+        <h2>Total Cash: ${this.state.totalCash}</h2>
+        </header>
+       
+      
         <div className="editDiv">
         <h2>Hello Captain {this.state.userName}</h2>
         <h2>Commander of the cargo ship {this.state.shipName}</h2>
@@ -145,31 +156,7 @@ changeShipName(id, shipName){
         </div>
 
 
-
-
-
-
-
-        </section>
-        </div>
-       
-        <header>  
-            <select onChange={ (e) => this.setAsteroid(e) }>
-              <option value=''>Select an Asteroid</option>
-              {this.state.asteroids.map(function(asteroid, index){
-              return <Asteroid
-              asteroid={asteroid.name}
-              />
-              })}
-            </select>
-
-
-
-
-
-
-          <h2>Total Cash: ${this.state.totalCash}</h2>
-        </header>
+        
         <div className="main_div">
         <Mine
         loadShip={this.loadShip}
