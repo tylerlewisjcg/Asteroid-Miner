@@ -7,7 +7,7 @@ class Login extends Component {
     render() { 
         return ( 
             <div className="login_screen">
-                <button onClick={ ()=> this.props.createPlayer()}>New Player</button>
+                <button onClick={ ()=> this.state.createPlayer()}>New Player</button>
                 <button>Login</button>
             </div>
          )

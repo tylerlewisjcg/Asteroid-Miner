@@ -5,7 +5,9 @@ import Mine from './components/Mine';
 import Ship from './components/Ship';
 import Warehouse from './components/Warehouse';
 import UserInfo from './components/UserInfo';
-
+import Asteroid from './components/Asteroid';
+import Edit from './components/Edit';
+import Logo from './components/Logo';
 class App extends Component {
   constructor() {
     super();
@@ -17,18 +19,24 @@ class App extends Component {
       amtToSell:0,
       asteroids: [],
       asteroid: '',
-      loggedIn: true
+      userName: "",
+      shipName: "",
+      id: 0
      }
     this.loadShip = this.loadShip.bind( this ); 
     this.unloadCargo = this.unloadCargo.bind(this);
     this.sellAmount = this.sellAmount.bind(this);
     this.sell = this.sell.bind(this);
+    this.getUsers = this.getUsers.bind(this);
+    this.userChange = this.userChange.bind(this);
+    this.changeShipName = this.changeShipName.bind(this);
+    this.changeUserName = this.changeUserName.bind(this);
   }
   componentDidMount() {
     this.getAsteroids();
     }
     getAsteroids() {
-      axios.get('https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=DEMO_KEY')
+      axios.get('https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=PgYNn5EOacMDJevdz4nESPNvJ4W4qPcz7yB1capC')
       .then(response => this.setState(
       {asteroids: response.data.near_earth_objects}
       ))
@@ -50,7 +58,7 @@ sell(val){
     this.setState({totalStorage:0,
       totalCash: this.state.totalCash += 0
     })
-    alert("You Must Construct Additonal Pylons");
+    alert("You Have Nothing to Sell!");
   }
   else {
     this.setState({
@@ -71,39 +79,95 @@ unloadCargo() {
     shipCapacity:0  
   })
 }
-logout(){
-  this.setState ({
-    loggedIn: false
+
+
+getUsers(){
+  axios.get('/api/users')
+  .then(res=> 
+      {  console.log(res);
+        if(res.data.length === 0){
+          this.setState({
+            userName: '',
+            shipName:''
+          })
+        }
+        else{
+    this.setState({
+      users: res,
+      userName: res.data[res.data.length - 1].userName,
+      shipName: res.data[res.data.length - 1].shipName,
+      id: res.data[res.data.length - 1].id
+    })}
+    console.log(this.state.users);
+      });
+}
+
+
+removeUser(id) {
+  axios.delete( '/api/users'+ `/${id}`).then( response => {
+    console.log(response);
+  });
+}
+
+userChange(event) {
+  this.setState({[event.target.name]: event.target.value});
+console.log(event.target.value);
+}
+
+changeUserName(id, userName){
+axios.put('/api/users' + `/${id}`, {userName})
+.then(res => {
+  this.setState({userName: res.data.userName})
+})
+}
+changeShipName(id, shipName){
+  axios.put('/api/users' + `/${id}`, {shipName})
+  .then(res => {
+    this.setState({shipName: res.data.shipName})
   })
-}
-componentWillMount (){
-  this.getUsers;
-}
+  }
 
 
   render() { 
     return ( 
       <div className="app">
-      {this.state.loggedIn ?
+    
         <div> 
-        <h1>Asteroid Miner</h1>
+        <div className="logoBar"><Logo/><h1>Asteroid Miner</h1><Logo/></div>
+        <button onClick ={this.getUsers}>Load Current Profile</button>
         <div className="logoutDiv">
-        <h2>Hello Captain"PlayerName"</h2>
         <section className="headerButtons">
-        <button className ="editProfile">Edit Profile</button>
-        <button>Delete Profile</button>
-        <button className="logoutButton" onClick = {()=> this.logout()}>Logout</button>
+        <div className="editDiv">
+        <h2>Hello Captain {this.state.userName}</h2>
+        <h2>Commander of the cargo ship {this.state.shipName}</h2>
+        <h2>Mining on Asteroid {this.state.asteroid}</h2>
+      
+        </div>
+
+
+
+
+
+
+
         </section>
         </div>
-        <h2>Captain of the Cargo Ship "ShipName"</h2>
-        <h2>Mining on Asteroid{this.state.asteroid}</h2>
+       
         <header>  
             <select onChange={ (e) => this.setAsteroid(e) }>
               <option value=''>Select an Asteroid</option>
               {this.state.asteroids.map(function(asteroid, index){
-              return <option value={asteroid.name}>{asteroid.name}</option>
+              return <Asteroid
+              asteroid={asteroid.name}
+              />
               })}
             </select>
+
+
+
+
+
+
           <h2>Total Cash: ${this.state.totalCash}</h2>
         </header>
         <div className="main_div">
@@ -119,11 +183,25 @@ componentWillMount (){
         sell={this.sell}
         totalStorage={this.state.totalStorage}
         />
-        </div> 
         </div>
-        :
-        <UserInfo/>
-      }
+
+        </div>
+        <div className="footer">
+        <UserInfo /> 
+        
+        <Edit
+       changeShipName={this.changeShipName}
+       userChange={this.userChange}
+       changeUserName={this.changeUserName}
+       userName={this.state.userName}
+       shipName={this.state.shipName}
+       id={this.state.id}
+       
+       />
+       <div className="deleteDiv">
+        <button onClick = {()=>this.removeUser(this.state.id)} className="deleteButton">Delete Profile</button>
+       </div>
+       </div>
       </div>
     )
   }

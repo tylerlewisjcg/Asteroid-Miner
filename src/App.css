@@ -1,6 +1,6 @@
 .app{
     background-image: url(https://wallpaperscraft.com/image/space_planets_asteroids_stars_belt_galaxy_93470_1920x1080.jpg);
-    height: 100vh;
+    height: 150vh;
     color: white;
 }
 img {
@@ -71,6 +71,7 @@ input {
 }
 .submit {
     width: 75px;
+    margin-left: 10%;
 }
 .count {
     color: white;
@@ -94,4 +95,41 @@ input {
 }
 .editProfile {
     width: 100px;
+}
+.editInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.buttons {
+    display: flex;
+    flex-direction: row;
+}
+.logoBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.logo {
+    height: 40px;
+    width: 50px;
+}
+.footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.deleteButton {
+    height: 30px;
+}
+.deleteDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.newPlayer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

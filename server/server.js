@@ -12,8 +12,8 @@ app.use(bodyParser.json());
 
 app.get('/api/users', uc.read);
 app.post('/api/users', uc.create);
-app.put('/api/users:id', uc.update);
-app.delete('/api/users:id', uc.delete);
+app.put('/api/users/:id', uc.update);
+app.delete('/api/users/:id', uc.delete);
 
 
 const port = 3005;
