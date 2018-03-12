@@ -146,17 +146,12 @@ changeShipName(id, shipName){
             </select></div>
         <h2>Total Cash: ${this.state.totalCash}</h2>
         </header>
-       
-      
         <div className="editDiv">
         <h2>Hello Captain {this.state.userName}</h2>
         <h2>Commander of the cargo ship {this.state.shipName}</h2>
         <h2>Mining on Asteroid {this.state.asteroid}</h2>
       
         </div>
-
-
-        
         <div className="main_div">
         <Mine
         loadShip={this.loadShip}
