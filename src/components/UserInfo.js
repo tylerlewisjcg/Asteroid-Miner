@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import Login from './Login';
 class UserInfo extends Component {
     constructor(props) {
@@ -13,6 +14,7 @@ class UserInfo extends Component {
             showForm: false
         }
         this.createPlayer=this.createPlayer.bind(this);
+        this.createUser=this.createUser.bind(this);
     }
 
     handleChange(event) {
@@ -27,9 +29,15 @@ class UserInfo extends Component {
         this.setState({showForm: true});
     }
 
-    // need  a ternary function to show user info on submit
-    // need axios request methods to communicate with my API
-    // needendpoints in my controller to handle requests
+    createUser(){
+        let newUser = {userName: this.state.userName, 
+        shipName: this.state.shipName
+        }
+        axios.post('http://localhost3005/api/users', newUser)
+        .then(res => {
+          console.log(res);
+        })
+      }
 
     render() { 
         return ( 
@@ -40,12 +48,13 @@ class UserInfo extends Component {
             <input name='userName' value={this.state.userName} onChange= { (e) => this.handleChange(e)} className="userInput"/>
             <span className="inputLabel">Ship Name:</span>
             <input name='shipName' value={this.state.shipName} onChange={ (e) => this.handleChange(e)} className="userInput"/>
-            <button className="submit">Submit</button>
+            <button className="submit" onClick={this.createUser}>Submit</button>
             </form>
             :
             <Login
             createPlayer = {this.createPlayer}
             />}
+            {console.log(this.state.users)}
 
         </div> 
         )

@@ -6,11 +6,11 @@ import Ship from './components/Ship';
 import Warehouse from './components/Warehouse';
 import UserInfo from './components/UserInfo';
 
-
 class App extends Component {
   constructor() {
     super();
     this.state = { 
+      users: [],
       totalCash: 0,
       totalStorage: 0,
       shipCapacity: 0,
@@ -19,56 +19,33 @@ class App extends Component {
       asteroid: '',
       loggedIn: true
      }
-
     this.loadShip = this.loadShip.bind( this ); 
     this.unloadCargo = this.unloadCargo.bind(this);
     this.sellAmount = this.sellAmount.bind(this);
     this.sell = this.sell.bind(this);
   }
-
-
   componentDidMount() {
-
     this.getAsteroids();
-    
     }
-
-
     getAsteroids() {
-
       axios.get('https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=DEMO_KEY')
-      
       .then(response => this.setState(
-      
       {asteroids: response.data.near_earth_objects}
-      
       ))
-      
-      
     }
-
-    
 setAsteroid(e) {
-
   this.setState(
-  
-  {asteroid: e.target.value}
-  
-  )
-  
-  }
-
+    {asteroid: e.target.value}
+ ) 
+}
 sellAmount(val){
     this.setState({
      amtToSell: val
     });
-
 }
-
 sell(val){
   let numberized = Number(this.state.totalStorage);
   let numberized2 = Number(this.state.amtToSell)
- 
   if(this.state.totalStorage<=0){
     this.setState({totalStorage:0,
       totalCash: this.state.totalCash += 0
@@ -80,16 +57,13 @@ sell(val){
       totalStorage: numberized -= numberized2,
       totalCash: this.state.totalCash += numberized2 * 5
      })
-  }
-
+    }
 }
-
 loadShip(){
   this.setState({shipCapacity: this.state.shipCapacity += 1})
   if(this.state.shipCapacity >= 50){
     alert("Your Ship is Full!");
-    this.setState({shipCapacity: 50});
-  
+    this.setState({shipCapacity: 50}); 
 }
 }
 unloadCargo() {
@@ -102,6 +76,9 @@ logout(){
     loggedIn: false
   })
 }
+componentWillMount (){
+  this.getUsers;
+}
 
 
   render() { 
@@ -113,7 +90,8 @@ logout(){
         <div className="logoutDiv">
         <h2>Hello Captain"PlayerName"</h2>
         <section className="headerButtons">
-          <button className="editProfile">Edit Profile</button>
+        <button className ="editProfile">Edit Profile</button>
+        <button>Delete Profile</button>
         <button className="logoutButton" onClick = {()=> this.logout()}>Logout</button>
         </section>
         </div>
@@ -150,5 +128,4 @@ logout(){
     )
   }
 }
- 
 export default App;
